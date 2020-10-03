@@ -29,7 +29,7 @@ pyUDPpunch works and tries to implement several methods of nat traversal and udp
 
 ### Tech
 
-pyUDPPunch uses a these source projects to work properly:
+pyUDPPunch uses these source projects to work properly:
 
 * [pystun3](https://github.com/talkiq/pystun3) - STUN for python users!
 
@@ -61,7 +61,7 @@ print(x.load())
 Or you could initilize with empty instructor and fill values later!
 ```py
 x = Connector()
-info = x.local_info() #Gives client localip and port, pass this data to second clien.
+info = x.local_info() #Gives client localip and port, pass this data to second client.
 x.setOn(<targetip>,<targetport>,<optional:connection_port>,<optional:timestamp>)
 print(x.load())
 ```
@@ -88,7 +88,7 @@ print(x.load())
 
 Want to contribute? Great!
 
-We are in dire need for developers which can extend and improve the codes as well as add new functions and methods, you are always welcome to pull and edit the code, for more active development you can directly contact me at my discord IGN: Agent_Orange#9852
+We are in dire need for developers which can extend and improve the codes as well as add new functions and methods, you are always welcome to pull and edit the code, for more active development you can directly contact me at my discord IGN: **Agent_Orange#9852**
 ### Todos
 
  - Add Full Cone To Symmetric Connector
@@ -123,10 +123,3 @@ GPLv3
    [dill]: <https://github.com/hari01584/r>
    [git-repo-url]: <https://github.com/hari01584/pyUDPpunch.git>
    [df1]: <https://en.wikipedia.org/wiki/UDP_hole_punching>
- 
-   [PlDb]: <https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md>
-   [PlGh]: <https://github.com/joemccann/dillinger/tree/master/plugins/github/README.md>
-   [PlGd]: <https://github.com/joemccann/dillinger/tree/master/plugins/googledrive/README.md>
-   [PlOd]: <https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md>
-   [PlMe]: <https://github.com/joemccann/dillinger/tree/master/plugins/medium/README.md>
-   [PlGa]: <https://github.com/RahulHP/dillinger/blob/master/plugins/googleanalytics/README.md>
