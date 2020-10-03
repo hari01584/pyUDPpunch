@@ -105,6 +105,13 @@ class Connector:
   def load(self):
         return [self.status, self.connection_ip,self.connection_port, self.lport]
 
+
+def main():
+    targetip = input("Target IP:")
+    targetport = int(input("Target PORT:"))
+
+    print(Connector("127.0.0.1",12421,targetip,targetport,24252).load())
+
     
 if __name__ == "__main__":
     targetip = input("Target IP:")
