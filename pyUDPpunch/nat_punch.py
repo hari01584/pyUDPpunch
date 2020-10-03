@@ -91,6 +91,35 @@ class Connector:
     self.targetport = targetport
     self.msport = msport
     self.timestamp = timestamp
+
+
+  def __init__(self):
+    self.status = 0
+    self.connection_ip = ""
+    self.connection_port = 0
+    self.lport = 0
+    
+    self.nat_type, self.localip, self.localport = stun.get_ip_info()
+
+    self.targetip = None
+    self.targetport = None
+    self.msport = None
+    self.timestamp = None
+
+  def setOn(self,targetip,targetport,msport= 0,timestamp = 0):
+    self.targetip = targetip
+    self.targetport = targetport
+    self.msport = msport
+    self.timestamp = timestamp
+
+
+  def local_info(self):
+    return (self.nat_type, self.localip, self.localport)
+
+  def start_connection(self):
+    if(not self.targetip):
+      print("No IP Assigned, Use setOn Before Starting Connection..")
+      return
     if(msport==0):
       self.msport = randint(10000, 99999)
       print("Starting Connector On Port {}, Punching Hole Might Take Some Time!!".format(self.msport))      
@@ -105,7 +134,7 @@ class Connector:
 
     
   def load(self):
-        return [self.status, self.connection_ip,self.connection_port, self.lport]
+        return (self.status, self.connection_ip,self.connection_port, self.lport)
 
     
 def main():
