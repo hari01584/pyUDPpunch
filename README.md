@@ -2,19 +2,19 @@
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
-pyUDPpunch Is A Lightweight UDP Hole Punching Tool Made Solely In Python, It Uses A Series Of Connection Steps To Build And Establish Connection.. (NOTE: DOESNT SUPPORT RELAYS)
+pyUDPpunch is a lightweight udp hole punching tool made solely in python, it uses a series of connection steps to build and establish connection.. (note: doesnt support relays)
 
-  - Easy And Lightweight Module
-  - Import, Run And Build Connection
-  - Join Two Clients P2P Without Hassles!
+  - Easy and lightweight module
+  - Import, run and build connection
+  - Join two clients p2p without hassles!
 
 # New Features!
 
-  - Support Direction Connection And Double Full NAT Connections!
-  - Can Optionally Define Timestamp To Coordinate Connection Time And Hence Ensure More Chances Of Connection Establishment (Timestamp Is Seconds Elapsed After 1970/1/1)
+  - Support direction connection and double full nat connections!
+  - Can optionally define timestamp to coordinate connection time and hence ensure more chances of connection establishment (timestamp is seconds elapsed after 1970/1/1)
 
 
-pyUDPPunch Works And Tries To Implement Several Methods Of Nat Traversal And UDP Hole Punching Algorithms  As Stated On This [Wikipedia site][df1]
+pyUDPpunch works and tries to implement several methods of nat traversal and udp hole punching algorithms  as stated on this [Wikipedia site][df1]
 
 > The overriding design goal for pyUDPPunch
 > is to make a tool for pythonian users to have
