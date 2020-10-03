@@ -40,7 +40,9 @@ class Connector:
     epoch = datetime.datetime(1970,1,1)
     t = int((d - epoch).total_seconds())
 
-    timestamp = t+3  #TODO CHANGE
+    if(timestamp==0):
+      timestamp = t+3  #TODO CHANGE
+      
     while t<timestamp:
       print("Seconds Till Remaining:",timestamp-t)
       timestamp -= 1
@@ -77,14 +79,14 @@ class Connector:
     print(t)
 
   
-  def __init__(self, localip,localport,targetip,targetport,msport= 0,timestamp = 0):
+  def __init__(self, targetip,targetport,msport= 0,timestamp = 0):
     self.status = 0
     self.connection_ip = ""
     self.connection_port = 0
     self.lport = 0
+
+    self.nat_type, self.localip, self.localport = stun.get_ip_info()
     
-    self.localip = localip
-    self.localport = localport
     self.targetip = targetip
     self.targetport = targetport
     self.msport = msport
@@ -105,22 +107,12 @@ class Connector:
   def load(self):
         return [self.status, self.connection_ip,self.connection_port, self.lport]
 
-
+    
 def main():
     targetip = input("Target IP:")
     targetport = int(input("Target PORT:"))
-
-    print(Connector("127.0.0.1",12421,targetip,targetport,24252).load())
-
-    
-if __name__ == "__main__":
-    targetip = input("Target IP:")
-    targetport = int(input("Target PORT:"))
-
-    print(Connector("127.0.0.1",12421,targetip,targetport,24252).load())
-    
-    #print(Connector("127.0.0.1",12421,"10.3.4.5",22254,24252).load())
-    pass
+    timestamp = int(input("Enter Connection Timestamp:"))
+    print(Connector(targetip,targetport,24252,timestamp=timestamp).load())
 
 
 #ALGO
