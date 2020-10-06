@@ -109,7 +109,6 @@ class Connector:
         except Exception:
           pass
 
-      socket_iter = cycle(socket_list)
       max_e_ind = len(socket_list)-1
       i=0
       j=0
@@ -120,7 +119,7 @@ class Connector:
         if(j==max_e_ind):
           j=0
         print(j)
-        current_sock = socket_iter[j]
+        current_sock = socket_list[j]
         print(i)
         try:
             msgFromServer = current_sock.recv(bufferSize)
@@ -154,7 +153,7 @@ class Connector:
 
 
         try:
-          msgFromServer , addr = sock.recvfrom(bufferSize)
+          msgFromServer , addr = UDPClientSocket.recvfrom(bufferSize)
           if(msgFromServer==data):
             print("Bruteforce Succeeded! Peer Connected!!")
             self.status = 1
