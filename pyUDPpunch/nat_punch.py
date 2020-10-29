@@ -86,7 +86,7 @@ class Connector:
   def fullCone_Sym(self):
     NUM_PORTS = 1024
     socket_list = []
-    LIMIT_BRUTEFORCE_LISTEN_SYM_SECOND = 10
+    LIMIT_BRUTEFORCE_LISTEN_SYM_SECOND = 20
     LIMIT_SECOND_TIMEOUT_SYM = 0.001
 
     NOOFTL = LIMIT_BRUTEFORCE_LISTEN_SYM_SECOND//LIMIT_SECOND_TIMEOUT_SYM
@@ -95,7 +95,7 @@ class Connector:
     data = b"sym_full"
     print("Looks Like Connection Has Symmetric Peer, Bruteforcing Ports List!!")
     
-    if(self.nat_type != "Symmetric NAT"):   #TODO CHANGE
+    if(self.nat_type == "Symmetric NAT"):
       print("Making Random Ports!")
       target_address = (self.targetip,self.targetport)
       for port in random.sample(range(1025,65536),NUM_PORTS):
@@ -138,7 +138,7 @@ class Connector:
           continue
         j+=1
 
-    elif(self.nat_type == "Symmetric NAT"):
+    elif(self.nat_type != "Symmetric NAT"):
         i = 0
         LIMIT_MAX_RETRY = 4096
         LIMIT_SECOND_TIMEOUT = 20
