@@ -84,7 +84,7 @@ class Connector:
 
         
   def fullCone_Sym(self):
-    NUM_PORTS = 16     #TODO: 2048
+    NUM_PORTS = 1024
     socket_list = []
     LIMIT_BRUTEFORCE_LISTEN_SYM_SECOND = 10
     LIMIT_SECOND_TIMEOUT_SYM = 0.001
@@ -95,7 +95,7 @@ class Connector:
     data = b"sym_full"
     print("Looks Like Connection Has Symmetric Peer, Bruteforcing Ports List!!")
     
-    if(self.nat_type == "Symmetric NAT"):
+    if(self.nat_type != "Symmetric NAT"):   #TODO CHANGE
       print("Making Random Ports!")
       target_address = (self.targetip,self.targetport)
       for port in random.sample(range(1025,65536),NUM_PORTS):
@@ -138,11 +138,11 @@ class Connector:
           continue
         j+=1
 
-    elif(self.nat_type != "Symmetric NAT"):
+    elif(self.nat_type == "Symmetric NAT"):
         i = 0
         LIMIT_MAX_RETRY = 4096
         LIMIT_SECOND_TIMEOUT = 20
-        NUM_PORTS_TRY = 60
+        NUM_PORTS_TRY = 2048
         target_address = (self.targetip,self.targetport)
         bufferSize = 64
         UDPClientSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
@@ -153,17 +153,17 @@ class Connector:
           i+=1
           target_address = (self.targetip,port)
           UDPClientSocket.sendto(data, target_address)
-          try:
-            msgFromServer , addr = UDPClientSocket.recvfrom(bufferSize)
-            if(msgFromServer==data):
-              print("Bruteforce Succeeded! Peer Connected!!")
-              self.status = 1
-              self.lport = self.msport
-              self.connection_ip = self.targetip
-              self.connection_port = addr[1]
-          except socket.timeout:
-            if(i==LIMIT_MAX_RETRY-1):
-              print("Bruteforce Failed.. Going Next Step!!")
+
+        try:
+          msgFromServer , addr = UDPClientSocket.recvfrom(bufferSize)
+          if(msgFromServer==data):
+            print("Bruteforce Succeeded! Peer Connected!!")
+            self.status = 1
+            self.lport = self.msport
+            self.connection_ip = self.targetip
+            self.connection_port = addr[1]
+        except socket.timeout:
+            print("Bruteforce Failed.. Going Next Step!!")
             
 
         UDPClientSocket.close()
