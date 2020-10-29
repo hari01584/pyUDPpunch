@@ -84,11 +84,13 @@ class Connector:
 
         
   def fullCone_Sym(self):
-    NUM_PORTS = 2048
+    NUM_PORTS = 16     #TODO: 2048
     socket_list = []
-    LIMIT_MAX_RETRY_SYM = 200
-    LIMIT_BRUTEFORCE_LISTEN_SYM_SECOND = 20
+    LIMIT_BRUTEFORCE_LISTEN_SYM_SECOND = 10
     LIMIT_SECOND_TIMEOUT_SYM = 0.001
+
+    NOOFTL = LIMIT_BRUTEFORCE_LISTEN_SYM_SECOND//LIMIT_SECOND_TIMEOUT_SYM
+    
     bufferSize = 32
     data = b"sym_full"
     print("Looks Like Connection Has Symmetric Peer, Bruteforcing Ports List!!")
@@ -99,28 +101,27 @@ class Connector:
       for port in random.sample(range(1025,65536),NUM_PORTS):
         try:
           server_socket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
-          server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-          server_socket.bind(('0.0.0.0', port))
-          UDPClientSocket.settimeout(LIMIT_SECOND_TIMEOUT_SYM)
-          server_socket.listen(1)
+          server_socket.bind(('', port))
+          server_socket.settimeout(LIMIT_SECOND_TIMEOUT_SYM)
           for i in range(2):
             server_socket.sendto(data, target_address)
           socket_list.append(server_socket)
-        except Exception:
-          pass
+        except Exception  as e:
+          print(e)
 
       max_e_ind = len(socket_list)-1
       i=0
       j=0
-      print(max_e_ind)
+      print("Sockets:",max_e_ind)
       while True:
-        if (i>int(LIMIT_BRUTEFORCE_LISTEN_SYM_SECOND//LIMIT_SECOND_TIMEOUT_SYM)):
+        i+=1
+        if (i>int(NOOFTL)):
           break
+        if((NOOFTL/i).is_integer() and i>1000):
+          print("Still Running..")
         if(j==max_e_ind):
           j=0
-        print(j)
         current_sock = socket_list[j]
-        print(i)
         try:
             msgFromServer = current_sock.recv(bufferSize)
             if(msgFromServer==data):
@@ -131,13 +132,14 @@ class Connector:
               self.connection_port = self.targetport
               break
         except socket.timeout:
-          if(i==LIMIT_MAX_RETRY-1):
-            print("Bruteforce Failed! Looks Like Connection Cant Be Made, Sorry :(")
+          if(i==NOOFTL-1):
+            print("Bruteforce Failed! Looks Like Connection Cant Be Made, Sorry :(",i)
+            break
           continue
-        i+=1
         j+=1
 
     elif(self.nat_type != "Symmetric NAT"):
+        i = 0
         LIMIT_MAX_RETRY = 4096
         LIMIT_SECOND_TIMEOUT = 20
         NUM_PORTS_TRY = 60
@@ -148,22 +150,21 @@ class Connector:
         UDPClientSocket.bind(("0.0.0.0",self.msport))
 
         for port in random.sample(range(1025,65536),NUM_PORTS_TRY):
+          i+=1
           target_address = (self.targetip,port)
           UDPClientSocket.sendto(data, target_address)
-
-
-        try:
-          msgFromServer , addr = UDPClientSocket.recvfrom(bufferSize)
-          if(msgFromServer==data):
-            print("Bruteforce Succeeded! Peer Connected!!")
-            self.status = 1
-            self.lport = self.msport
-            self.connection_ip = self.targetip
-            self.connection_port = addr[1]
-        except socket.timeout:
-          if(i==LIMIT_MAX_RETRY-1):
-            print("Bruteforce Failed.. Going Next Step!!")
-
+          try:
+            msgFromServer , addr = UDPClientSocket.recvfrom(bufferSize)
+            if(msgFromServer==data):
+              print("Bruteforce Succeeded! Peer Connected!!")
+              self.status = 1
+              self.lport = self.msport
+              self.connection_ip = self.targetip
+              self.connection_port = addr[1]
+          except socket.timeout:
+            if(i==LIMIT_MAX_RETRY-1):
+              print("Bruteforce Failed.. Going Next Step!!")
+            
 
         UDPClientSocket.close()
 
