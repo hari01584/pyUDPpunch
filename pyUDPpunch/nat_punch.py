@@ -45,7 +45,7 @@ class Connector:
     t = int((d - epoch).total_seconds())
 
     if(self.timestamp==0):
-      self.timestamp = t+3  #TODO CHANGE
+      self.timestamp = t+3
       
     while t<self.timestamp:
       print("Seconds Till Remaining:",self.timestamp-t)
