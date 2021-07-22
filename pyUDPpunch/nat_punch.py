@@ -11,7 +11,7 @@ class Connector:
 
   def OneOne(self):
         LIMIT_MAX_RETRY = 5
-    
+
         target_address = (self.targetip,self.msport)
         bufferSize = 1024
         data = b"oneone"
@@ -46,7 +46,7 @@ class Connector:
 
     if(self.timestamp==0):
       self.timestamp = t+3
-      
+
     while t<self.timestamp:
       print("Seconds Till Remaining:",self.timestamp-t)
       self.timestamp -= 1
@@ -82,7 +82,7 @@ class Connector:
         UDPClientSocket.close()
 
 
-        
+
   def fullCone_Sym(self):
     NUM_PORTS = 1024
     socket_list = []
@@ -90,11 +90,11 @@ class Connector:
     LIMIT_SECOND_TIMEOUT_SYM = 0.001
 
     NOOFTL = LIMIT_BRUTEFORCE_LISTEN_SYM_SECOND//LIMIT_SECOND_TIMEOUT_SYM
-    
+
     bufferSize = 32
     data = b"sym_full"
     print("Looks Like Connection Has Symmetric Peer, Bruteforcing Ports List!!")
-    
+
     if(self.nat_type == "Symmetric NAT"):
       print("Making Random Ports!")
       target_address = (self.targetip,self.targetport)
@@ -164,7 +164,7 @@ class Connector:
             self.connection_port = addr[1]
         except socket.timeout:
             print("Bruteforce Failed.. Going Next Step!!")
-            
+
 
         UDPClientSocket.close()
 
@@ -172,8 +172,8 @@ class Connector:
 
     for socks in socket_list:
       socks.close()
-        
-  
+
+
   def __init__(self, targetip = "",targetport = 0,msport= 0,timestamp = 0):
     self.status = 0
     self.connection_ip = ""
@@ -181,7 +181,7 @@ class Connector:
     self.lport = 0
 
     self.nat_type, self.localip, self.localport = stun.get_ip_info()
-    
+
     self.targetip = str(targetip)
     self.targetport = int(targetport)
     self.msport = int(msport)
@@ -204,8 +204,8 @@ class Connector:
       return
     if(self.msport==0):
       self.msport = randint(1025,65536)
-      
-      print("Starting Connector On Port {}, Punching Hole Might Take Some Time!!".format(self.msport))      
+
+      print("Starting Connector On Port {}, Punching Hole Might Take Some Time!!".format(self.msport))
     else:
       print("Starting Connector On Port {}, Punching Hole Might Take Some Time!!".format(self.msport))
       self.OneOne()
@@ -216,13 +216,13 @@ class Connector:
     if(self.status==0):
       self.fullCone_Sym()
 
-    
 
-    
+
+
   def load(self):
         return (self.status, self.connection_ip,self.connection_port, self.lport)
 
-    
+
 def main():
     print("Wait.. Getting Your Data!!")
     x=Connector()
@@ -231,6 +231,7 @@ def main():
     targetport = int(input("Target PORT:"))
     timestamp = int(input("Enter Connection Timestamp:"))
     print(Connector(targetip,targetport,24252,timestamp).load())
+
 
 
 #ALGO
